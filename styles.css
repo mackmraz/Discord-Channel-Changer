@@ -59,6 +59,21 @@ button:hover {
   margin-left: 10px;
 }
 
+.hotkey-preview {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-left: 10px;
+  border-radius: 4px;
+  background-color: #333333;
+  color: #ffffff;
+  height: 30px;
+  line-height: 30px;
+}
+
+#saveConfigBtn {
+  margin-bottom: 50px;
+}
+
 .modal {
   display: none;
   position: fixed;

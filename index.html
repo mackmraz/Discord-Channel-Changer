@@ -7,6 +7,7 @@
   </head>
   <body>
     <h1>Discord Channel Changer</h1>
+    <p id="result"></p>
     <div>
       <label for="guildId">Guild ID:</label>
       <input type="text" id="guildId" />
@@ -23,26 +24,25 @@
         <label for="channelId1">Channel ID 1:</label>
         <input type="text" id="channelId1" />
         <button class="hotkey-btn" id="hotkeyBtn1">Set Hotkey</button>
-        <span id="hotkey1"></span>
+        <span id="hotkey1" class="hotkey-preview"></span>
       </div>
       <!-- Repeat the above block for channels 2 to 10 -->
       <div class="channel" id="channel2">
         <label for="channelId2">Channel ID 2:</label>
         <input type="text" id="channelId2" />
         <button class="hotkey-btn" id="hotkeyBtn2">Set Hotkey</button>
-        <span id="hotkey2"></span>
+        <span id="hotkey2" class="hotkey-preview"></span>
       </div>
       <!-- Add more channels as needed -->
       <div class="channel" id="channel10">
         <label for="channelId10">Channel ID 10:</label>
         <input type="text" id="channelId10" />
         <button class="hotkey-btn" id="hotkeyBtn10">Set Hotkey</button>
-        <span id="hotkey10"></span>
+        <span id="hotkey10" class="hotkey-preview"></span>
       </div>
     </div>
 
     <button id="saveConfigBtn">Save Configuration</button>
-    <p id="result"></p>
 
     <!-- Hotkey Modal -->
     <div id="hotkeyModal" class="modal">
