@@ -5,8 +5,7 @@ const axios = require("axios");
 const localShortcut = require("electron-localshortcut");
 
 const CONFIG_PATH = path.join(__dirname, "config.json");
-const FUNCTION_URL =
-  "https://us-east4-compact-buckeye-425720-i8.cloudfunctions.net/elysian-radio";
+const FUNCTION_URL = "YOUR_GOOGLE_CLOUD_FUNCTION_URL";
 
 function createWindow() {
   const win = new BrowserWindow({

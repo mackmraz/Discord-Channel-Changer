@@ -105,6 +105,12 @@
         });
 
         saveConfigBtn.addEventListener("click", () => {
+          // Disable inputs and button during save operation
+          guildIdInput.disabled = true;
+          userIdInput.disabled = true;
+          channelInputs.forEach((input) => (input.disabled = true));
+          saveConfigBtn.disabled = true;
+
           const config = {
             guildId: guildIdInput.value,
             userId: userIdInput.value,
@@ -119,9 +125,20 @@
             .saveConfig(config)
             .then((message) => {
               resultElement.textContent = message;
+              // Enable inputs and button after save operation
+              guildIdInput.disabled = false;
+              userIdInput.disabled = false;
+              channelInputs.forEach((input) => (input.disabled = false));
+              saveConfigBtn.disabled = false;
+              saveConfigBtn.textContent = "Update Configuration";
             })
             .catch((error) => {
               resultElement.textContent = `Error: ${error.message}`;
+              // Enable inputs and button after save operation
+              guildIdInput.disabled = false;
+              userIdInput.disabled = false;
+              channelInputs.forEach((input) => (input.disabled = false));
+              saveConfigBtn.disabled = false;
             });
         });
       });
