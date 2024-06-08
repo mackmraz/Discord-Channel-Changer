@@ -1,0 +1,27 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.example.discord-channel-changer
+productName: DiscordChannelChanger
+files:
+  - filter:
+      - main.js
+      - renderer.js
+      - index.html
+      - styles.css
+      - config.js
+      - preload.js
+      - package.json
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+mac:
+  target: dmg
+  category: public.app-category.utilities
+linux:
+  target:
+    - AppImage
+    - deb
+electronVersion: 16.2.8
