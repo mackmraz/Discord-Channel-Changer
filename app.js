@@ -4,7 +4,8 @@ const fs = require("fs");
 const path = require("path");
 
 const CONFIG_PATH = path.join(__dirname, "config.json");
-const FUNCTION_URL = "YOUR_GOOGLE_CLOUD_FUNCTION_URL";
+const FUNCTION_URL =
+  "https://us-east4-compact-buckeye-425720-i8.cloudfunctions.net/elysian-radio";
 
 const rl = readline.createInterface({
   input: process.stdin,

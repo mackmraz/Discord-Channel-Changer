@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Discord Channel Changer</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
+    <h1>Discord Channel Changer</h1>
+    <div>
+      <label for="guildId">Guild ID:</label>
+      <input type="text" id="guildId" />
+    </div>
+    <div>
+      <label for="userId">User ID:</label>
+      <input type="text" id="userId" />
+    </div>
+
+    <!-- Channel and Hotkey Inputs -->
+    <div id="channels">
+      <!-- Template for channel inputs, duplicated 10 times -->
+      <div class="channel" id="channel1">
+        <label for="channelId1">Channel ID 1:</label>
+        <input type="text" id="channelId1" />
+        <button class="hotkey-btn" id="hotkeyBtn1">Set Hotkey</button>
+        <span id="hotkey1"></span>
+      </div>
+      <!-- Repeat the above block for channels 2 to 10 -->
+      <div class="channel" id="channel2">
+        <label for="channelId2">Channel ID 2:</label>
+        <input type="text" id="channelId2" />
+        <button class="hotkey-btn" id="hotkeyBtn2">Set Hotkey</button>
+        <span id="hotkey2"></span>
+      </div>
+      <!-- Add more channels as needed -->
+      <div class="channel" id="channel10">
+        <label for="channelId10">Channel ID 10:</label>
+        <input type="text" id="channelId10" />
+        <button class="hotkey-btn" id="hotkeyBtn10">Set Hotkey</button>
+        <span id="hotkey10"></span>
+      </div>
+    </div>
+
+    <button id="saveConfigBtn">Save Configuration</button>
+    <p id="result"></p>
+
+    <!-- Hotkey Modal -->
+    <div id="hotkeyModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Press any key to set the hotkey</h2>
+      </div>
+    </div>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const guildIdInput = document.getElementById("guildId");
+        const userIdInput = document.getElementById("userId");
+        const resultElement = document.getElementById("result");
+        const saveConfigBtn = document.getElementById("saveConfigBtn");
+
+        const channelInputs = [];
+        const hotkeyBtns = [];
+        const hotkeySpans = [];
+        for (let i = 1; i <= 10; i++) {
+          channelInputs.push(document.getElementById(`channelId${i}`));
+          hotkeyBtns.push(document.getElementById(`hotkeyBtn${i}`));
+          hotkeySpans.push(document.getElementById(`hotkey${i}`));
+        }
+
+        const hotkeyModal = document.getElementById("hotkeyModal");
+        const closeBtn = document.querySelector(".close-btn");
+        let currentHotkeyIndex = null;
+
+        window.electronAPI.loadConfig().then((config) => {
+          if (config) {
+            guildIdInput.value = config.guildId;
+            userIdInput.value = config.userId;
+
+            channelInputs.forEach((input, index) => {
+              input.value = config[`channelId${index + 1}`] || "";
+              hotkeySpans[index].textContent =
+                config[`hotkey${index + 1}`] || "";
+            });
+          }
+        });
+
+        hotkeyBtns.forEach((btn, index) => {
+          btn.addEventListener("click", () => {
+            currentHotkeyIndex = index;
+            hotkeyModal.style.display = "block";
+          });
+        });
+
+        closeBtn.addEventListener("click", () => {
+          hotkeyModal.style.display = "none";
+          currentHotkeyIndex = null;
+        });
+
+        window.addEventListener("keydown", (event) => {
+          if (currentHotkeyIndex !== null) {
+            hotkeySpans[currentHotkeyIndex].textContent = event.key;
+            hotkeyModal.style.display = "none";
+            currentHotkeyIndex = null;
+          }
+        });
+
+        saveConfigBtn.addEventListener("click", () => {
+          const config = {
+            guildId: guildIdInput.value,
+            userId: userIdInput.value,
+          };
+
+          channelInputs.forEach((input, index) => {
+            config[`channelId${index + 1}`] = input.value;
+            config[`hotkey${index + 1}`] = hotkeySpans[index].textContent;
+          });
+
+          window.electronAPI
+            .saveConfig(config)
+            .then((message) => {
+              resultElement.textContent = message;
+            })
+            .catch((error) => {
+              resultElement.textContent = `Error: ${error.message}`;
+            });
+        });
+      });
+    </script>
+  </body>
+</html>
